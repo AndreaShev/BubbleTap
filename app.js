@@ -3,6 +3,17 @@ const screens =  document.querySelectorAll('.screen')
 const timeList = document.querySelector('#time-list')
 const timeEl = document.querySelector('#time')
 const board = document.querySelector('#board')
+  // Создаем массив с цветами для анимации
+  const colors = [
+    "red",
+    "blue",
+    "yellow",
+    "green",
+    "purple",
+    "white",
+    "brown",
+    "pink",
+  ];
 let time = 0
 let score = 0
 startBtn.addEventListener('click', (event) => {
@@ -58,12 +69,16 @@ function createRandomCircle() {
     const {width, height} = board.getBoundingClientRect()
     const x = getRandomNumber(0, width - size)
     const y = getRandomNumber(0, height - size)
+     // Генерируем случайный цвет
+    const color = getRandomColor();
 
     circle.classList.add('circle')
     circle.style.width = `${size}px`
     circle.style.height = `${size}px`
     circle.style.top = `${y}px`
     circle.style.left = `${x}px`
+      // Устанавливаем цвет фона элемента
+    circle.style.backgroundColor = color;
     board.append(circle)
 }
 
@@ -80,3 +95,9 @@ function winTheGame() {
  }  
  setInterval(kill, 42)
 }
+
+ // Функция получения случайного цвета
+  function getRandomColor() {
+    // Возвращаем случайный цвет из массива colors
+    return colors[Math.floor(Math.random() * colors.length)];
+  }
