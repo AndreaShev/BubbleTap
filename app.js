@@ -1,103 +1,97 @@
-const startBtn = document.querySelector('#start')
-const screens =  document.querySelectorAll('.screen')
-const timeList = document.querySelector('#time-list')
-const timeEl = document.querySelector('#time')
-const board = document.querySelector('#board')
-  // Создаем массив с цветами для анимации
-  const colors = [
-    "red",
-    "blue",
-    "yellow",
-    "green",
-    "purple",
-    "white",
-    "brown",
-    "pink",
-  ];
-let time = 0
-let score = 0
+const startBtn = document.querySelector('#start');
+const screens = document.querySelectorAll('.screen');
+const timeList = document.querySelector('#time-list');
+const timeEl = document.querySelector('#time');
+const board = document.querySelector('#board');
+let intervalId = null; // Храним ID интервала
+let time = 0;
+let score = 0;
+
 startBtn.addEventListener('click', (event) => {
-    event.preventDefault()
-    screens[0].classList.add('up')
-})
+  event.preventDefault();
+  screens[0].classList.add('up');
+});
+
 timeList.addEventListener('click', (event) => {
-if (event.target.classList.contains('time-btn')) {
-time = parseInt(event.target.getAttribute('data-time'))  
-screens[1].classList.add('up')   
-startGame()  
-}
-})
+  if (event.target.classList.contains('time-btn')) {
+    time = parseInt(event.target.getAttribute('data-time'));
+    screens[1].classList.add('up');
+    startGame();
+  }
+});
 
 board.addEventListener('click', event => {
-    if (event.target.classList.contains('circle')) {
-     score++
-     event.target.remove()   
-     createRandomCircle()
-    }
-})
+  if (event.target.classList.contains('circle')) {
+    score++;
+    event.target.remove();
+    createRandomCircle();
+  }
+});
 
-function startGame(){
-    setInterval(decreaseTime, 1000)
-    createRandomCircle()
-    setTime(time)     
+function startGame() {
+  clearInterval(intervalId); // Очищаем предыдущий (если был)
+  intervalId = setInterval(decreaseTime, 1000);
+  createRandomCircle();
+  setTime(time);
 }
 
 function decreaseTime() {
-    if (time === 0) {
-        finishGame()
-    } else {
-      let current = --time
+  if (time === 0) {
+    finishGame();
+  } else {
+    let current = --time;
     if (current < 10) {
-    current = `0${current}`    
+      current = `0${current}`;
     }
-setTime(current)      
-    } 
+    setTime(current);
+  }
 }
 
 function setTime(value) {
-timeEl.innerHTML = `00:${value}`      
+  timeEl.textContent = `00:${value}`;
 }
 
 function finishGame() {
-    timeEl.parentNode.classList.add('hide')
-board.innerHTML = `<h1>Cчет: <span class="primary">${score}</span></h1>`    
+  clearInterval(intervalId);
+  timeEl.parentNode.classList.add('hide');
+  board.innerHTML = `<h1>Cчет: <span class="primary">${score}</span></h1>`;
 }
 
 function createRandomCircle() {
-    const circle = document.createElement('div')
-    const size = getRandomNumber(10, 60)
-    const {width, height} = board.getBoundingClientRect()
-    const x = getRandomNumber(0, width - size)
-    const y = getRandomNumber(0, height - size)
-     // Генерируем случайный цвет
-    const color = getRandomColor();
-
-    circle.classList.add('circle')
-    circle.style.width = `${size}px`
-    circle.style.height = `${size}px`
-    circle.style.top = `${y}px`
-    circle.style.left = `${x}px`
-      // Устанавливаем цвет фона элемента
-    circle.style.backgroundColor = color;
-    board.append(circle)
+  const circle = document.createElement('div');
+  const size = getRandomNumber(10, 60);
+  const { width, height } = board.getBoundingClientRect();
+const x = Math.random() * (width - size);
+const y = Math.random() * (height - size);
+  const color = getRandomColor();
+  circle.classList.add('circle');
+  circle.style.width = `${size}px`;
+  circle.style.height = `${size}px`;
+  circle.style.top = `${y}px`;
+  circle.style.left = `${x}px`;
+  circle.style.backgroundColor = color;
+  setTimeout(() => circle.style.transform = 'scale(1)', 10);
+  board.append(circle);
 }
 
 function getRandomNumber(min, max) {
-    return Math.round(Math.random() * (max - min) + min)
+  return Math.round(Math.random() * (max - min) + min);
 }
 
+function getRandomColor() {
+  const hue = Math.floor(Math.random() * 360);
+  const saturation = Math.floor(Math.random() * 50) + 50;
+  const lightness = Math.floor(Math.random() * 50) + 25;
+  return `hsl(${hue}, ${saturation}%, ${lightness}%)`;
+}
+
+// автокликер
 function winTheGame() {
- function kill()  {
-    const circle = document.querySelector('.circle')
-    if (circle) {
-    circle.click()    
-    }
- }  
- setInterval(kill, 42)
+function kill() {
+const circle = document.querySelector('.circle')
+if (circle) {
+circle.click()
 }
-
- // Функция получения случайного цвета
-  function getRandomColor() {
-    // Возвращаем случайный цвет из массива colors
-    return colors[Math.floor(Math.random() * colors.length)];
-  }
+}
+setInterval(kill, 42)
+}
