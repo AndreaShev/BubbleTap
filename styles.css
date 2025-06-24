@@ -89,6 +89,7 @@ h1 {
 
 .board {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   position: relative;
@@ -108,9 +109,18 @@ h1 {
   transform: scale(0);
 }
 
-/* @media (max-width: 600px) {
-  .board {
-    width: 300px;
-    height: 300px;
-  }
-} */
+#restart {
+  background-color: transparent;
+  border: 2px solid #c0c0c0;
+  color: #fff;
+  cursor: pointer;
+  font-family: inherit;
+  padding: 0.5rem 1rem;
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+#restart:hover {
+  border: 2px solid #16d9e3;
+  color: #16d9e3;
+}
