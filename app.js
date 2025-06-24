@@ -64,11 +64,33 @@ function finishGame() {
   restartBtn.classList.add('start');
   restartBtn.id = 'restart';
   
+  // Добавляем кнопку "Завершить игру"
+  const endBtn = document.createElement('button');
+  endBtn.textContent = 'Завершить игру';
+  endBtn.classList.add('start', 'end-btn');
+  endBtn.id = 'end';
+  
+  // Контейнер для кнопок
+  const buttonsContainer = document.createElement('div');
+  buttonsContainer.classList.add('buttons-container');
+  buttonsContainer.append(restartBtn, endBtn);
+  
   board.innerHTML = '';
   board.append(scoreElement);
-  board.append(restartBtn);
+  board.append(buttonsContainer);
   
   restartBtn.addEventListener('click', resetGame);
+  
+  // Обработчик для кнопки завершения игры
+  endBtn.addEventListener('click', () => {
+    // Сбрасываем состояние игры
+    score = 0;
+    board.innerHTML = '';
+    timeEl.parentNode.classList.remove('hide');
+    
+    // Возвращаемся на стартовый экран
+    screens.forEach(screen => screen.classList.remove('up'));
+  });
 }
 
 function resetGame() {
