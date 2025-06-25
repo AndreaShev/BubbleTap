@@ -22,6 +22,10 @@ a:hover {
   color: #16d9e3;
 }
 
+h1 {
+margin-bottom: 10px;
+}
+
 .start {
   background-color: transparent;
   border: 2px solid #c0c0c0;
